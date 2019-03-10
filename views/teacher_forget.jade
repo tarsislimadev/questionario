@@ -1,0 +1,27 @@
+extends layout
+block content
+  .card
+    .card-header Recuperação de senha de professor
+    .card-body
+      form
+        .form-group
+          label(for="email") E-mail
+          input#email(type="email",class="form-control",placeholder="E-mail",data-bind="value: email")
+          small.form-text#emailError
+        a.btn.btn-primary.btn-lg.btn-block(data-bind="click: send") Recuperar
+        p(data-bind="value: message")
+block scripts
+  script
+    | function ViewModel() {
+    |   var vm = this;
+    |   
+    |   vm.email = ko.observable('');
+    |   vm.message = ko.observable('');
+    |   
+    |   vm.send = function () {
+    |       ajax.teacher_forget(vm.email()).then(function (response) {
+    |           
+    |       });
+    |   }
+    |   
+    | }

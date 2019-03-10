@@ -1,0 +1,99 @@
+extends layout
+block content
+  .card
+    .card-header Cadastro de professor
+    .card-body
+      form
+        .form-group
+          label(for="nome") Nome
+          input#nome(type="text",class="form-control",placeholder="Nome",data-bind="value: nome")
+          small.text-danger.form-text(data-bind="text: nomeError")
+        .form-group
+          label(for="cpf") CPF
+          input#cpf(type="text",class="form-control",placeholder="CPF",data-bind="value: cpf")
+          small.text-danger.form-text(data-bind="text: cpfError")
+        .form-group
+          label(for="email") E-mail
+          input#email(type="email",class="form-control",placeholder="E-mail",data-bind="value: email")
+          small.text-danger.form-text(data-bind="text: emailError")
+        .form-group
+          label(for="senha") Senha
+          input#senha(type="password",class="form-control",placeholder="Senha",data-bind="value: senha")
+          small.text-danger.form-text(data-bind="text: senhaError")
+        .form-group
+          label(for="confirmacao") Confirmação de senha
+          input#confirmacao(type="password",class="form-control",placeholder="Confirmação de senha",data-bind="value: confirmacao")
+          small.text-danger.form-text(data-bind="text: confirmacaoError")
+        a.btn.btn-primary.btn-lg.btn-block(data-bind="click: send") Cadastrar
+block scripts
+  script
+    | function ViewModel() {
+    |   var vm = this;
+    |   
+    |   vm.nome = ko.observable('');
+    |   vm.nomeError = ko.observable(null);
+    |   vm.cpf = ko.observable('');
+    |   vm.cpfError = ko.observable(null);
+    |   vm.email = ko.observable('');
+    |   vm.emailError = ko.observable(null);
+    |   vm.senha = ko.observable('');
+    |   vm.senhaError = ko.observable(null);
+    |   vm.confirmacao = ko.observable('');
+    |   vm.confirmacaoError = ko.observable(null);
+    |   
+    |   vm.valid = function () {
+    |     var valid = true;
+    |     
+    |     if (vm.nome() == '') {
+    |       valid = false;
+    |       vm.nomeError('O campo Nome é obrigatório');
+    |     } else {
+    |       vm.nomeError(null);
+    |     }
+    |     
+    |     if (vm.cpf() == '') {
+    |       valid = false;
+    |       vm.cpfError('O campo CPF é obrigatório');
+    |     } else {
+    |       vm.cpfError(null);
+    |     }
+    |     
+    |     if (vm.email() == '') {
+    |       valid = false;
+    |       vm.emailError('O campo E-mail é obrigatório');
+    |     } else {
+    |       vm.emailError(null);
+    |     }
+    |     
+    |     if (vm.senha() == '') {
+    |       valid = false;
+    |       vm.senhaError('O campo Senha é obrigatório');
+    |     } else {
+    |       vm.senhaError(null);
+    |     }
+    |     
+    |     if (vm.confirmacao() == '') {
+    |       valid = false;
+    |       vm.confirmacaoError('O campo Confirmação de Senha é obrigatório');
+    |     } else if (vm.senha() != vm.confirmacao()) {
+    |       valid = false;
+    |       vm.confirmacaoError('O campo Confirmação de Senha precisa ser igual ao campo Senha');
+    |     } else {
+    |       vm.confirmacaoError(null);
+    |     }
+    |     
+    |     return valid;
+    |   }
+    |   
+    |   vm.send = function () {
+    |     if (vm.valid()) {
+    |       ajax.teacher_register(vm.nome(), vm.cpf(), vm.email(), vm.senha()).then(function (response) {
+    |         
+    |       });
+    |     }
+    |   }
+    |   
+    |   
+    |   
+    |   
+    | }

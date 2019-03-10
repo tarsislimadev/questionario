@@ -1,0 +1,13 @@
+.bg-photo-main {
+    background-position: center center;
+    background-image: url('../images/sebastian-mantel-105235-unsplash.jpg');
+    background-size: cover;
+    height: 600px;
+}
+
+h1.title-main {
+    color: #fff;
+    text-shadow: #000 0px 1px 1px;
+    text-align: center;
+    padding-top: 100px;
+}
