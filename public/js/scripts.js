@@ -3,12 +3,13 @@ function Ajax() {
   var x = this;
 
   x.__ = function (method, url, params) {
-    return new Promise(function () {
+    return new Promise(function (s, f) {
       var xhr = new XMLHttpRequest();
       xhr.open(method, '/ajax/' + url);
+      xhr.setRequestHeader('Content-Type', 'application/json');
 
       xhr.onload = function () {
-        s();
+        s(JSON.parse(xhr.responseText));
       };
 
       xhr.onerror = function () {
@@ -19,26 +20,34 @@ function Ajax() {
     });
   };
 
-  x.teacher_register = function (nome, cpf, email, senha) {
-    return  x.__('POST', 'teacher_register', {
+  x.register = function (nome, email, senha) {
+    return  x.__('POST', 'register', {
       nome: nome, 
-      cpf: cpf, 
       email: email, 
       senha: senha
     });
   }
 
-  x.teacher_forget = function (email) {
-    return x.__('POST', 'teacher_forget', { email: email });
+  x.login_forget = function (email) {
+    return x.__('POST', 'login_forget', { email: email });
+  }
+
+  x.login = function (email, senha) {
+    return x.__('POST', 'login', {
+      email: email, 
+      senha: senha
+    });
   }
 }
 
 var ajax = new Ajax();
 
 $(document).ready(function () {
-  viewModel = new ViewModel();
-  ko.applyBindings(viewModel);
-  if (viewModel.init) {
-    viewModel.init();
+  if (typeof ViewModel === 'function') {
+    viewModel = new ViewModel();
+    ko.applyBindings(viewModel);
+    if (viewModel.init) {
+      viewModel.init();
+    }
   }
 });

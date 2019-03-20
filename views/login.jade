@@ -1,0 +1,68 @@
+extends layout
+block content
+  .card
+    .card-header 
+      span Login
+      br
+      span.text-danger(data-bind="text: error")
+    .card-body
+      form
+        .form-group
+          label(for="email") E-mail
+          input#email(type="email",class="form-control",placeholder="E-mail",data-bind="value: email")
+          small.text-danger.form-text(data-bind="text: emailError")
+        .form-group
+          label(for="senha") Senha
+          input#senha(type="password",class="form-control",placeholder="Senha",data-bind="value: senha")
+          small.text-danger.form-text(data-bind="text: senhaError")
+        a.btn.btn-primary.btn-lg.btn-block(data-bind="click: send") Entrar
+      br
+      a(href="/login/forget") Esqueci minha senha
+    .card-footer
+      a(href="/login/register") Quero me cadastrar
+block scripts
+  script
+    | function ViewModel() {
+    |   var vm = this;
+    |   vm.error = ko.observable(null);
+    |   
+    |   vm.email = ko.observable('');
+    |   vm.emailError = ko.observable(null);
+    |   vm.senha = ko.observable('');
+    |   vm.senhaError = ko.observable(null);
+    |   
+    |   vm.valid = function () {
+    |     var valid = true;
+    |     
+    |     if (vm.email() == '') {
+    |       valid = false;
+    |       vm.emailError('O campo E-mail é obrigatório');
+    |     } else {
+    |       vm.emailError(null);
+    |     }
+    |     
+    |     if (vm.senha() == '') {
+    |       valid = false;
+    |       vm.senhaError('O campo Senha é obrigatório');
+    |     } else {
+    |       vm.senhaError(null);
+    |     }
+    |     
+    |     return valid;
+    |   }
+    |   
+    |   vm.send = function () {
+    |     vm.error(null);
+    |   
+    |     if (vm.valid()) {
+    |       ajax.login(vm.email(), vm.senha()).then(function (response) {
+    |         switch(response.status) {
+    |           case 'error': vm.error('Ocorreu um erro.'); break;
+    |           case 'invalid': vm.error('As crendencais não corresnpodem.'); break;
+    |           case 'ok': { window.location = '/dashboard'; }
+    |         }
+    |       });
+    |     }
+    |   }
+    |   
+    | }

@@ -1,0 +1,68 @@
+extends layin
+block content
+  .container
+    form
+      .form-group
+        label(for="nome") Nome do questionário
+        input#nome(type="text",class="form-control",placeholder="Nome do questionário",data-bind="value: nome")
+        small.text-danger.form-text(data-bind="text: nomeErro")
+      hr
+      span(data-bind="foreach: questions")
+        .form-group
+          label(data-bind="attr: { for: 'question-name-' + id }") Título da questão
+          input(class="form-control",placeholder="Título da questão",data-bind="value: titulo, attr: { id: 'question-name-' + id }")
+          small.text-danger.form-text(data-bind="text: tituloErro")
+        .form-group
+          label(data-bind="attr: { for: 'question-name-' + id }") Tipo de questão
+          select(class="form-control",data-bind="value: tipo, options: tipos, optionsText: 'name', optionsValue: 'key', optionsCaption: 'Tipo de questão' ")
+          small.text-danger.form-text(data-bind="text: tipoErro")
+        hr
+        br
+    .row
+      .col
+        button.btn.btn-lg.btn-primary.btn-block(data-bind="click: add_question") Criar questão
+      .col
+        button.btn.btn-lg.btn-danger.btn-block(data-bind="click: finish") Finalizar
+
+block scripts
+  script
+    | function Question (id) {
+    |   var q = this;
+    |   
+    |   q.id = id;
+    |   
+    |   q.titulo = ko.observable('');
+    |   q.tituloErro = ko.observable(null);
+    |   
+    |   q.tipos = ko.observableArray([
+    |     { key: 'text', name: 'Texto' }, 
+    |     { key: 'number', name: 'Número' }, 
+    |     { key: 'unique', name: 'Seleção única' }, 
+    |     { key: 'multiple', name: 'Seleção múltipla' }, 
+    |     { key: 'class', name: 'Classificação' }
+    |   ]);
+    | 
+    |   q.tipo = ko.observable(null);
+    |   q.tipoErro = ko.observable(null);
+    |   
+    | }
+    | 
+    | function ViewModel() {
+    |   var vm = this;
+    |   
+    |   vm.error = ko.observable(null);
+    |   
+    |   vm.nome = ko.observable('');
+    |   vm.nomeErro = ko.observable(null);
+    |   
+    |   vm.questions = ko.observableArray([]);
+    |   
+    |   vm.add_question = function () {
+    |     vm.questions.push(new Question(vm.questions.length))
+    |   }
+    |   
+    |   vm.finish = function () {
+    |     
+    |   }
+    |   
+    | }

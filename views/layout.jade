@@ -18,12 +18,9 @@ html
         div.collapse.navbar-collapse#navbarSupportedContent
           ul.navbar-nav.mr-auto
             li.nav-item
+              a.nav-link(href="/login") Login
+            li.nav-item
               a.nav-link(href="/about") Sobre
-            li.nav-item.dropdown
-              a.nav-link.dropdown-toggle(href="#",id="navbarDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Login
-              div.dropdown-menu(aria-labelledby="navbarDropdown")
-                a.dropdown-item(href="/student/login") Aluno
-                a.dropdown-item(href="/teacher/login") Professor
     
     block content
 
